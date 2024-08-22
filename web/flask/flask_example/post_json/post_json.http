@@ -1,0 +1,15 @@
+# post_json_message.http
+
+POST http://127.0.0.1:5000/data/message/json HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: application/json
+
+{
+  "appInfo": {
+    "id": "123",
+    "name": "SampleApp",
+    "version": "1.0.0",
+    "author": "John Doe",
+    "remark": "Initial version"
+  }
+}

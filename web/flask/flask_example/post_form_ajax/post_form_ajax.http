@@ -1,0 +1,12 @@
+# requests.http
+
+### GET Request
+GET http://127.0.0.1:5000/data/message HTTP/1.1
+Host: 127.0.0.1:5000
+
+### POST Request
+POST http://127.0.0.1:5000/data/message HTTP/1.1
+Host: 127.0.0.1:5000
+Content-Type: application/x-www-form-urlencoded
+
+app_id=123&app_name=SampleApp&app_version=1.0.0&app_author=John+Doe&app_remark=Initial+version
