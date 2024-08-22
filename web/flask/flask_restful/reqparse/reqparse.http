@@ -1,0 +1,19 @@
+
+### 1. 查询参数
+GET http://127.0.0.1:5000/user?name=John&age=30&email=john@example.com HTTP/1.1
+
+### 2. 表单参数
+POST http://127.0.0.1:5000/user
+Content-Type: application/x-www-form-urlencoded
+
+name = John &
+email = john@example.com
+
+### 3. JSON 参数
+PUT http://127.0.0.1:5000/user
+Content-Type: application/json
+
+{
+  "name": "John",
+  "email": "john@example.com"
+}
