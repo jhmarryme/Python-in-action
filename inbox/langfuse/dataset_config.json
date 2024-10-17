@@ -1,0 +1,44 @@
+{
+  "dataset_name": "dify_dataset_1",
+  "description": "dify dataset",
+  "dataset_metadata": {
+    "author": "clearmind",
+    "date": "2024-09-19",
+    "type": "benchmark"
+  },
+  "dataset_items": [
+    {
+      "input": {
+        "text": "fastGpt doc文件的图片上传"
+      },
+      "expected_output": {
+        "answer": "直接将图片放入docx文件即可，FastGPT会自动将图片解析为base64格式处理，最终存储到数据库"
+      },
+      "metadata": {
+        "model": "qwen"
+      }
+    },
+    {
+      "input": {
+        "text": "FastGPT知识库支持哪两种格式的图片"
+      },
+      "expected_output": {
+        "answer": "1. oss-url格式\n2. base64格式"
+      },
+      "metadata": {
+        "model": "qwen"
+      }
+    },
+    {
+      "input": {
+        "text": "base64格式图片怎么导入"
+      },
+      "expected_output": {
+        "answer": "使用这样的格式导入:  ![1666070733(1)](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABPMAAAKVCAYAAACqHa7TAAAACXBIWXMAACHVAAAh1QEEnLSdAAAgAElEQVR4nOzdeXxM1/8/8NedJfsekUUkJL........)"
+      },
+      "metadata": {
+        "model": "qwen"
+      }
+    }
+  ]
+}
