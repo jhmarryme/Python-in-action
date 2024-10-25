@@ -1,51 +1,61 @@
-def group(n, m, a):
-    from sys import setrecursionlimit, stdin
-    from collections import defaultdict, deque
+from collections import defaultdict
 
-    setrecursionlimit(10**6)
+def dfs(graph, node, visited, stack):
+    visited[node] = True
+    for neighbor in graph[node]:
+        if not visited[neighbor]:
+            dfs(graph, neighbor, visited, stack)
+    stack.append(node)
 
-    # 构建图
+def reverse_graph(graph):
+    reversed_graph = defaultdict(list)
+    for u in graph:
+        for v in graph[u]:
+            reversed_graph[v].append(u)
+    return reversed_graph
+
+def scc_dfs(reversed_graph, node, visited, component):
+    visited[node] = True
+    component.append(node)
+    for neighbor in reversed_graph[node]:
+        if not visited[neighbor]:
+            scc_dfs(reversed_graph, neighbor, visited, component)
+
+def kosaraju(n, edges):
+    # 创建图
     graph = defaultdict(list)
-    for si, ti in a:
-        graph[si - 1].append(ti - 1)
+    for c, d in edges:
+        graph[c-1].append(d-1)  # 将索引调整为0-based
 
-    # Tarjan's SCC Algorithm
-    index = 0
-    indexes = [-1] * n
-    lowlink = [-1] * n
+    # 第一次DFS填充栈
+    visited = [False] * n
     stack = []
-    on_stack = [False] * n
+    for i in range(n):
+        if not visited[i]:
+            dfs(graph, i, visited, stack)
+
+    # 反转图
+    reversed_graph = reverse_graph(graph)
+
+    # 重置visited数组
+    visited = [False] * n
     scc_count = 0
 
-    def tarjan(v):
-        nonlocal index, scc_count
-        indexes[v] = lowlink[v] = index
-        index += 1
-        stack.append(v)
-        on_stack[v] = True
-
-        for w in graph[v]:
-            if indexes[w] == -1:
-                tarjan(w)
-                lowlink[v] = min(lowlink[v], lowlink[w])
-            elif on_stack[w]:
-                lowlink[v] = min(lowlink[v], indexes[w])
-
-        if lowlink[v] == indexes[v]:
-            while True:
-                w = stack.pop()
-                on_stack[w] = False
-                if w == v:
-                    break
+    # 第二次DFS确定SCC
+    while stack:
+        node = stack.pop()
+        if not visited[node]:
+            component = []
+            scc_dfs(reversed_graph, node, visited, component)
             scc_count += 1
-
-    for v in range(n):
-        if indexes[v] == -1:
-            tarjan(v)
 
     return scc_count
 
-# 示例输入
+def group(n, m, a):
+    # 调用Kosaraju算法计算强连通分量的数量
+    return kosaraju(n, a)
+
+# 示例测试
 n = 4
 m = 4
 a = [
@@ -54,6 +64,4 @@ a = [
     [2, 4],
     [3, 4]
 ]
-
-result = group(n, m, a)
-print(result)  # 输出: 3
+print(group(n, m, a))  # 应输出 3
