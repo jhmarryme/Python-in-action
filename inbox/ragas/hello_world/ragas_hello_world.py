@@ -1,13 +1,15 @@
 import os
 
 from datasets import Dataset
+from dotenv import load_dotenv
 from langchain_community.embeddings.dashscope import DashScopeEmbeddings
 from langchain_community.llms.tongyi import Tongyi
 from ragas import evaluate, RunConfig
 from ragas.metrics import faithfulness, answer_relevancy, context_recall, context_precision, answer_similarity, \
     answer_correctness, context_entity_recall
 
-os.environ["DASHSCOPE_API_KEY"] = "sk-"
+load_dotenv()
+os.environ["DASHSCOPE_API_KEY"] = os.getenv("DASHSCOPE_API_KEY")
 llm = Tongyi(model_name="qwen-turbo")
 embeddings = DashScopeEmbeddings()
 

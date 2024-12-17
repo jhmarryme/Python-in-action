@@ -1,6 +1,10 @@
+import os
+
+from dotenv import load_dotenv
 from mem0 import MemoryClient
 
-m = MemoryClient(api_key="m0-")
+load_dotenv()
+m = MemoryClient(api_key=os.getenv("MEM0_API_KEY"))
 
 # 从任何非结构化文本中存储记忆
 result = m.add("我正在学习python,请推荐一些学习课程", user_id="wjh", metadata={"category": "study"})
