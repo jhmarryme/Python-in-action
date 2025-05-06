@@ -1,5 +1,6 @@
 import logging
 import os
+import re
 from functools import wraps
 
 from dotenv import load_dotenv
@@ -46,8 +47,7 @@ def extract_keywords(content):
         # 从 "K：" 后面开始提取关键词
         keyword_str = content[start_index + 2:]
         # 使用中文顿号分割关键词
-        keywords = keyword_str.split('、')
-
+        keywords = re.split(r'[、，,]', keyword_str)
         # 移除 content 中的关键词部分
         new_content = content[:start_index].strip()
         return keywords, new_content
@@ -59,15 +59,27 @@ def update_segments_keywords_common(dataset_id, document_id):
     # 获取文档的所有分段
     segments_data = sdk.get_document_segments(dataset_id, document_id)
     for segment in segments_data.get('data', []):
+        enabled = segment.get("enabled")
+        if not enabled:
+            continue
         segment_id = segment["id"]
         content = segment["content"]
         answer = segment.get("answer")
+        old_keywords = segment.get("keywords")
         # 提取关键词
         new_keywords, new_content = extract_keywords(content)
-        enabled = segment.get("enabled")
         # 暂时不考虑 regenerate_child_chunks 的情况，可根据实际情况修改
         regenerate_child_chunks = None
-
+        if old_keywords is not None and len(old_keywords) > 0:
+            final_keywords = []
+            for keyword in old_keywords:
+                if ',' in keyword or '，' in keyword:
+                    # 重新切割关键词
+                    sub_keywords = re.split(r'[、，,]', keyword)
+                    final_keywords.extend([kw.strip() for kw in sub_keywords if kw.strip()])
+                else:
+                    final_keywords.append(keyword.strip())
+            new_keywords = final_keywords
         # 调用 SDK 方法更新关键词
         sdk.update_segment_keywords(
             dataset_id,

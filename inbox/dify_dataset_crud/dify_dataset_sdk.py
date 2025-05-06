@@ -163,7 +163,7 @@ class DifySDK:
         }
         if answer is not None:
             data["segment"]["answer"] = answer
-        if keywords is not None:
+        if keywords is not None and len(keywords) > 0:
             data["segment"]["keywords"] = keywords
         if enabled is not None:
             data["segment"]["enabled"] = enabled
