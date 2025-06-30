@@ -48,15 +48,12 @@ async def run_team_conversation():
     print(f"会话已创建：App='{APP_NAME}'，User='{USER_ID}'，Session='{SESSION_ID}'")
 
     # --- 获取实际根智能体对象 ---
-    # 使用确定的变量名称
-
     # 创建特定于此智能体团队测试的运行器
     runner_agent_team = Runner(
         agent=root_agent,  # 使用根智能体对象
         app_name=APP_NAME,  # 使用特定的应用名称
         session_service=session_service  # 使用特定的会话服务
     )
-    # 更正打印语句以显示实际根智能体的名称
     print(f"已为智能体 '{root_agent.name}' 创建运行器。")
 
     # 总是通过根智能体的运行器交互，传递正确的 ID

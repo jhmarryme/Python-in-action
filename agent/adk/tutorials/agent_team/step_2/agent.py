@@ -2,7 +2,6 @@ from typing import Optional
 
 from google.adk import Agent
 from google.adk.models.lite_llm import LiteLlm
-from sub_agent import greeting_agent, farewell_agent
 
 # @title 定义模型常量
 AGENT_MODEL = 'openai/qwen2.5-72b-instruct'
@@ -46,7 +45,7 @@ def get_weather(city: str) -> dict:
               如果是 'success'，包含 'report' 键与天气详情。
               如果是 'error'，包含 'error_message' 键。
     """
-    print(f"--- Tool: get_weather called for city: {city} ---")
+    print(f"--- 工具: get_weather called for city: {city} ---")
     city_normalized = city.lower().replace(" ", "")  # 基本输入标准化
 
     # 优化点：添加中文城市名作为键，以匹配LLM可能提取的中文城市名
@@ -61,24 +60,6 @@ def get_weather(city: str) -> dict:
         {"status": "error", "error_message": f"抱歉，我没有 '{city}' 的天气信息。"}
     )
 
-
-# @title 定义根智能体 (集成子智能体和天气工具)
-root_agent = Agent(
-    name="root_agent",  # 给它一个新的版本名称
-    model=LiteLlm(model=AGENT_MODEL),
-    description="主要协调智能体。处理天气请求并将问候/告别委托给专家。",
-    instruction="你是协调团队的主要天气智能体。你的主要职责是提供天气信息。"
-                "仅对特定天气请求使用 'get_weather' 工具（例如，'伦敦的天气'）。"
-                "你有专门的子智能体："
-                "1. 'greeting_agent'：处理像'嗨'、'你好'这样的简单问候。将此类委托给它。"
-                "2. 'farewell_agent'：处理像'再见'、'回头见'这样的简单告别。将此类委托给它。"
-                "分析用户的查询。如果是问候，委托给 'greeting_agent'。如果是告别，委托给 'farewell_agent'。"
-                "如果是天气请求，使用 'get_weather' 自己处理。"
-                "对于其他任何事情，适当回应或说明你无法处理。",
-    tools=[get_weather],  # 根智能体仍需要天气工具用于其核心任务
-    # 关键变化：在这里链接子智能体！
-    sub_agents=[greeting_agent, farewell_agent]
-)
 
 # @title 定义问候和告别子智能体
 # --- 问候智能体 ---
@@ -108,3 +89,21 @@ farewell_agent = Agent(
     tools=[say_goodbye],
 )
 print(f"✅ 智能体 '{farewell_agent.name}' 已使用模型 '{AGENT_MODEL}' 创建。")
+
+# @title 定义根智能体 (集成子智能体和天气工具)
+root_agent = Agent(
+    name="root_agent",  # 给它一个新的版本名称
+    model=LiteLlm(model=AGENT_MODEL),
+    description="主要协调智能体。处理天气请求并将问候/告别委托给专家。",
+    instruction="你是协调团队的主要天气智能体。你的主要职责是提供天气信息。"
+                "仅对特定天气请求使用 'get_weather' 工具（例如，'伦敦的天气'）。"
+                "你有专门的子智能体："
+                "1. 'greeting_agent'：处理像'嗨'、'你好'这样的简单问候。将此类委托给它。"
+                "2. 'farewell_agent'：处理像'再见'、'回头见'这样的简单告别。将此类委托给它。"
+                "分析用户的查询。如果是问候，委托给 'greeting_agent'。如果是告别，委托给 'farewell_agent'。"
+                "如果是天气请求，使用 'get_weather' 自己处理。"
+                "对于其他任何事情，适当回应或说明你无法处理。",
+    tools=[get_weather],  # 根智能体仍需要天气工具用于其核心任务
+    # 关键变化：在这里链接子智能体！
+    sub_agents=[greeting_agent, farewell_agent]
+)
