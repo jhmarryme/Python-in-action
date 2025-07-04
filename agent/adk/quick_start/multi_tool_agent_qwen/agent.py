@@ -58,7 +58,7 @@ def get_current_time(city: str) -> dict:
 
 root_agent = Agent(
     name="weather_time_agent",
-    model=LiteLlm(model="openai/qwen-plus"),
+    model=LiteLlm(model="openai/qwen2.5-32b-instruct"),
     description=(
         "Agent to answer questions about the time and weather in a city."
     ),
