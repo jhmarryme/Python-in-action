@@ -1,5 +1,6 @@
 def is_strongly_connected_directed(graph):
     def build_reverse_graph(graph):
+        # 下面的写法有问题,赋值的问题类似于浅拷贝带来的问题
         # reverse = [[0] * len(graph)] * len(graph)
         reverse = [[0] * len(graph) for _ in range(len(graph))]
 
