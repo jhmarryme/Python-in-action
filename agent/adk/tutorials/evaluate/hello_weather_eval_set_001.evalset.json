@@ -1,0 +1,68 @@
+{
+  "evals": [
+    {
+      "name": "eval_weather_london",
+      "turns": [
+        {
+          "user": "What's the weather in London?",
+          "expected_tool_use": [
+            {"tool_name": "get_weather", "args": {"city": "London"}}
+          ],
+          "reference": "伦敦多云，温度为 15°C。"
+        }
+      ],
+      "session_input": {"app_name": "evaluate_tutorial_app", "user_id": "user_eval_cli", "state": {}}
+    },
+    {
+      "name": "eval_weather_tokyo",
+      "turns": [
+        {
+          "user": "What's the weather in Tokyo?",
+          "expected_tool_use": [
+            {"tool_name": "get_weather", "args": {"city": "Tokyo"}}
+          ],
+          "reference": "东京有小雨，温度为 18°C。"
+        }
+      ],
+      "session_input": {"app_name": "evaluate_tutorial_app", "user_id": "user_eval_cli", "state": {}}
+    },
+    {
+      "name": "eval_weather_unknown_city",
+      "turns": [
+        {
+          "user": "What's the weather in Paris?",
+          "expected_tool_use": [
+            {"tool_name": "get_weather", "args": {"city": "Paris"}}
+          ],
+          "reference": "抱歉，我没有 'Paris' 的天气信息。"
+        }
+      ],
+      "session_input": {"app_name": "evaluate_tutorial_app", "user_id": "user_eval_cli", "state": {}}
+    },
+    {
+      "name": "eval_weather_casing_variant",
+      "turns": [
+        {
+          "user": "Tell me the weather in New York",
+          "expected_tool_use": [
+            {"tool_name": "get_weather", "args": {"city": "New York"}}
+          ],
+          "reference": "纽约的天气是晴朗的，温度为 25°C。"
+        }
+      ],
+      "session_input": {"app_name": "evaluate_tutorial_app", "user_id": "user_eval_cli", "state": {}}
+    },
+    {
+      "name": "eval_non_weather_intent",
+      "turns": [
+        {
+          "user": "Tell me a joke.",
+          "expected_tool_use": [
+          ],
+          "reference": "抱歉，我的职责是提供天气信息。"
+        }
+      ],
+      "session_input": {"app_name": "evaluate_tutorial_app", "user_id": "user_eval_cli", "state": {}}
+    }
+  ]
+}

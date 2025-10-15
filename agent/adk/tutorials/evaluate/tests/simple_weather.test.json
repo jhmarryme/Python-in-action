@@ -1,0 +1,20 @@
+{
+  "name": "simple_weather_session",
+  "turns": [
+    {
+      "user": "What's the weather in London?",
+      "expected_tool_use": [
+        {
+          "tool_name": "get_weather",
+          "args": {"city": "London"}
+        }
+      ],
+      "reference": "伦敦多云，温度为 15°C。"
+    }
+  ],
+  "session_input": {
+    "app_name": "evaluate_tutorial_app",
+    "user_id": "user_eval_root",
+    "state": {}
+  }
+}
