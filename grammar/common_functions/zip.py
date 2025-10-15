@@ -9,3 +9,9 @@ list1 = [1, 2, 3]
 list2 = ['a', 'b', 'c']
 zipped = zip(list1, list2)
 print(list(zipped))
+
+matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+transposed_matrix = list(map(list, zip(*matrix)))
+print(f"转置后的矩阵: {transposed_matrix}")
+transposed_matrix = [list(row) for row in zip(*matrix)]
+print(f"转置后的矩阵: {transposed_matrix}")
